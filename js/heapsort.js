@@ -1,7 +1,6 @@
 
-function print(s) {
-    console.log(s);
-}
+var comm = require('./common.js');
+
 
 function stringifyTree(n) {
     s = n.val + " L:{";
@@ -105,7 +104,6 @@ function Heap() {
     this.removeRoot = function () {
 	var removed = this.root.val;
 	var curr = this.root;
-	print("tree: " + stringifyTree(this.root));
 	while (curr) {
 	    if (curr.right) {
 		// we must have a left if we have a right
@@ -134,6 +132,8 @@ function Heap() {
 	    curr.parent.right = null;
 	// we removed a node so the next insertion should go here
 	this.freespot = curr.parent;
+	// rebalance as the swapped value could be out of order
+	this.rebalanceVals(this.lastadded);
 	return removed;
     }
 
@@ -179,14 +179,9 @@ function heapSort(vals) {
 }
 
 function main(num) {
-    //var vals = generateNumberArray(num || 10);
-    var vals = [ 19, 38, 33, 4, 93, 88, 31, 64, 71, 5 ];
-    print(vals);
+    var vals = comm.generateNumberArray(num || 10);
+    comm.print(vals);
     var s = heapSort(vals);
-    print(s);
+    comm.print(s);
 }
 main();
-
-
-// [ 19, 38, 33, 4, 93, 88, 31, 64, 71, 5 ]
-// [ 93, 88, 71, 64, 38, 33, 19, 31, 5, 4 ]
